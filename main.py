@@ -46,27 +46,35 @@ def hangman():
     return hangman()
     
 class Game(object):
-  def __init__(self, warning, guesses, letters_guessed, secret_word):
+  def __init__(self, 
+              warning, guesses, letters_guessed, secret_word):
     Game.warnings = 3
     Game.guesses = 6
     Game.letters_guessed = []
     Game.secret_word = choose_word(wordlist)
+    
   def input_letter(self):
     letter = (input()).lower()
     return letter
+  
   def is_letter(self, letter):
     if letter in string.ascii_lowercase:
       return True
     else: return False
+    
   def add_letter_to_guessed(self, letter):
     if Game.is_letter(self, letter):
       self.letters_guessed.append(letter)
-  def is_correct_letter(self, letter, secret_word):
+      
+  def is_correct_letter(self, 
+                      letter, secret_word):
     if letter in secret_word:
       return True
     else: return False
+    
   def get_available_letters(self, letters_guessed):
     return ("".join(sorted(set(string.ascii_lowercase) ^ set(Game.letters_guessed))))
+  
   def is_word_guessed(secret_word, letters_guessed):
     for char in secret_word:
       if (char in letters_guessed):
@@ -75,7 +83,9 @@ class Game(object):
         guessed = False
         return guessed
     return guessed
-  def is_reapeted_letter(self, letter, letters_guessed):
+  
+  def is_reapeted_letter(self, 
+                         letter, letters_guessed):
     if letter in letters_guessed:
       return True
     else: return False
@@ -84,6 +94,7 @@ class Game(object):
       return False
     else: 
       return True
+    
   def warning(self):
     if Game.warnings > 0: Game.warnings -= 1
     else: Game.guesses -= 1
@@ -94,26 +105,37 @@ class UI():
   def show_welcome(self):
     print("Welcome to the game Hangman!")
     print("I am thinking of a word that is", len(Game.secret_word), "letters long.")
+    
   def present_state(self):
     print("-------------")
     print("You have", Game.guesses ,"guesses left.")
     print("You have", Game.warnings ,"warnings left.")
     print("Available letters: ", Game.get_available_letters(self, Game.letters_guessed))
+    
   def guess(self):
     print("Please guess a letter: ", end = " ")
+    
   def get_guessed_word(self, secret_word, letters_guessed):
     space = [i if i in letters_guessed else " _" for i in secret_word]
     return "".join(space)
+  
   def get_available_letters(self, letters_guessed):
     return ("".join(sorted(set(string.ascii_lowercase) ^ set(letters_guessed))))
+  
   def good_guess(self):
     print ("Good guess:", self.get_guessed_word(Game.secret_word, Game.letters_guessed))
+    
   def repeated_letter(self, warnings):
     print("You have allready guess that letter. You have", warnings, "warnings left") 
+    
   def bad_guess(self):
-    print("Oops! That letter is not in my word:", self.get_guessed_word(Game.secret_word, Game.letters_guessed))
+    print("Oops! That letter is not in my word:", 
+          self.get_guessed_word(Game.secret_word, Game.letters_guessed))
+    
   def not_letter(self):
-    print(" Oops! That is not a valid letter. You have", Game.warnings, "warnings left:", self.get_guessed_word(Game.secret_word, Game.letters_guessed))
+    print(" Oops! That is not a valid letter. You have", Game.warnings,
+          "warnings left:", self.get_guessed_word(Game.secret_word, Game.letters_guessed))
+    
   def end_of_game(self, is_word_guessed):
     if is_word_guessed(Game.secret_word, Game.letters_guessed):
       print("You WIN!")
