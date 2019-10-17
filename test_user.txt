@@ -1,0 +1,1 @@
+{"name": "test_user", "played_games": 4, "won_games": 2}
